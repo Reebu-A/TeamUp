@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Turf Owner Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+         body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('/img/tfownersignup.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.5);
+            z-index: -1;
+        }
+        .form-container {
+            background-color: rgba(15, 23, 42, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .start-free {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        h1 {
+            color: white;
+            margin: 0 0 4px 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        h1::after {
+            content: " .";
+            /* color: #3b82f6; */
+            color: #4a86ff;
+        }
+        p {
+            color: #94a3b8;
+            margin-bottom: 16px;
+            font-size: 12px;
+        }
+        a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        .form-group {
+            margin-bottom: 18px;
+            position: relative;
+        }
+        .form-group i {
+            position: absolute;
+            top: 50%;
+            left: 16px;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-size: 16px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px 16px 10px 40px;
+            border: none;
+            background-color: #1e293b;
+            color: white;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+        }
+        input::placeholder {
+            color: #8394ab;
+        }
+        
+        .registerbtn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background-color: #3b82f6;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            margin-top: 12px;
+        }
+        .registerbtn:hover {
+            background-color: #2563eb;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #94a3b8;
+        }
+        .checkbox-group input {
+            margin-right: 8px;
+        }
+      
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="form-container">
+        <div class="start-free">START FOR FREE</div>
+        <h1>Create new account</h1>
+        <p>Already A Member? <a href="#">Log In</a></p>
+        
+        <form action="/Turfowner/savetf" method="post" class="a">
+            <div class="form-group">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Enter Name" name="name" id="name" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-phone"></i>
+                <input type="text" placeholder="Enter Mobile No:" id="phone" name="phone" pattern="^\d{10}$" title="Please enter a 10-digit phone number" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="Enter Email" name="email" id="email" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Enter Password" name="password" id="psw" pattern="^(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{5,}$" title="Password must be at least 5 characters long and contain at least 1 special character" required>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">I Agree To The <a href="#">Terms</a> And <a href="#">Privacy Policy</a></label>
+            </div>
+            
+            <button type="submit" class="registerbtn">Create account</button>
+        </form>
+    </div>
+</body>
+</html>

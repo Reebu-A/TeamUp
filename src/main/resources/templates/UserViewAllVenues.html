@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User ViewAllVenues</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="/css/userdashstyles.css"> -->
+    <link rel="stylesheet" href="/css/UserSeeAllVenue.css">
+   
+</head>
+<body th:each="us : ${user}">
+
+ 
+    <nav class="top-navbar">
+        <div class="logo">
+            <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+            <img src="https://www.freeiconspng.com/thumbs/football-png/football-png-26.png" alt="Logo">
+            TeamUp
+        </div>
+        <div class="user-info">
+ 
+            <div class="user-icon" onclick="toggleUserDropdown()"></div>
+            <div class="user-dropdown" id="userDropdown">
+                <a href="#">
+			        <i class="fas fa-user"></i>
+			        <span th:text="${us.name}"></span>
+			    </a>
+                <a href="/User/userprofile">
+			        <i class="fas fa-user-circle"></i>
+			        Profile
+			    </a>
+			    <a href="#" data-toggle="modal" data-target="#logoutModal">
+			        <i class="fas fa-sign-out-alt"></i>
+			        Logout
+			    </a>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="side-navbar" id="sideNavbar">
+        <div class="user-greeting">
+            <span class="hi-text">Hi,</span>
+            <span class="name-text"><span th:text="${us.name}"></span></span>
+        </div>
+        <ul>
+           
+           
+            
+            <li><a href="/User/userlogin"><i class="fas fa-tachometer-alt"></i><span class="text">Dashboard</span></a></li>
+            
+            <!-- My Alerts Section -->
+            <li class="collapsible">
+                <a href="#" onclick="toggleCollapse(event)">
+                    <i class="fas fa-bell"></i>
+                    <span class="text">My Alerts</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="collapsible-content">
+                    <li><a href="/User/mygamealert"><i class="fas fa-futbol"></i><span class="text">My Game Alerts</span></a></li>
+                    <li><a href="#"><i class="fas fa-film"></i><span class="text">My Movie Alerts</span></a></li>
+                </ul>
+            </li>
+    
+            <!-- Create Alert Section -->
+            <li class="collapsible">
+                <a href="#" onclick="toggleCollapse(event)">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="text">Create Alert</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="collapsible-content">
+                    <li><a href="/User/creategamealert"><i class="fas fa-gamepad"></i><span class="text">Create Game Alert</span></a></li>
+                    <li><a href="#"><i class="fas fa-video"></i><span class="text">Create Movie Alert</span></a></li>
+                </ul>
+            </li>
+    
+            <!-- New Alerts Section -->
+            <li class="collapsible">
+                <a href="#" onclick="toggleCollapse(event)">
+                    <i class="fas fa-star"></i>
+                    <span class="text">View New Alerts</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="collapsible-content">
+                    <li><a href="/User/viewgamealerts"><i class="fas fa-running"></i><span class="text">New Game Alerts</span></a></li>
+                    <li><a href="#"><i class="fas fa-ticket-alt"></i><span class="text">New Movie Alerts</span></a></li>
+                </ul>
+            </li>
+    		
+    		<li><a href="/User/directturfbooking"><i class="fas fa-location-arrow"></i><span class="text">Direct Turf Booking</span></a></li>
+            <li><a href="/User/mybooking"><i class="fas fa-calendar-check"></i><span class="text">My Bookings</span></a></li>
+        </ul>
+    </nav>
+    
+
+    <div class="main-content" id="mainContent">
+        <section class="venue-section">
+            <h1 class="section-title">Available Turfs</h1>
+            <div class="venue-grid" id="venueGrid">
+                <!-- Check if venues list is not empty -->
+                <th:block th:if="${not #lists.isEmpty(venues)}">
+                    <!-- Thymeleaf iteration over venues -->
+                    <div th:each="venue : ${venues}" class="venue-card">
+                        <img th:src="${venue.turfimage != null ? '/User/image/' + venue.turfid : '/img/no-image-available1.png'}"
+                             th:alt="${venue.turfname != null ? venue.turfname : 'No Image Available'}">
+                        <div class="venue-info">
+                            <h3 th:text="${venue.turfname}">Turf Name</h3>
+                            <p class="location"><i class="fas fa-map-marker-alt"></i> <span th:text="${venue.turflocation}">Turf Location</span></p>
+                            <p class="phone"><i class="fas fa-phone"></i> <span th:text="${venue.phone}">Phone</span></p>
+                            <p class="type"><i class="fas fa-futbol"></i> <span th:text="${venue.designtype}">Design Type</span></p>
+                            
+                            
+                    
+                            <p class="rate standard-rate"><i class="fas fa-tag"></i> Standard: ₹<span th:text="${venue.standardrate}"></span></p>
+                            <p class="rate peak-rate"><i class="fas fa-bolt"></i> Peak: ₹<span th:text="${venue.peaktimerate}"></span></p>
+                        </div>
+                    </div>
+                </th:block>
+                <!-- Display message when no venues are available -->
+                <div th:if="${#lists.isEmpty(venues)}" class="no-venues-message">
+                    <p>No turfs available at the moment. Please check back later.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+   
+   
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="/Logout/logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+
+
+        
+   function toggleSidebar() {
+    const sidebar = document.getElementById('sideNavbar');
+    const mainContent = document.getElementById('mainContent');
+    sidebar.classList.toggle('open');
+    if (sidebar.classList.contains('open')) {
+        mainContent.style.marginLeft = '250px';
+    } else {
+        mainContent.style.marginLeft = '60px'; // Adjust to sidebar collapsed width
+    }
+}
+    function toggleCollapse(event) {
+            event.preventDefault();
+            const parentLi = event.target.closest('li.collapsible');
+            parentLi.classList.toggle('active');
+        }
+
+
+
+
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

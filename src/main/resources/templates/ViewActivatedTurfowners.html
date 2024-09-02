@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activated Turf Owners</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/AdminTableStyle.css">
+<style>
+        .popup-message {
+		    position: fixed;
+		    top: 70px; 
+		    left: 50%;
+		    transform: translateX(-50%);
+		    padding: 15px 25px;
+		    background-color: #d4edda; /* Updated Background Color */
+		    color: #155724; /* Updated Text Color */
+		    border-radius: 10px;
+		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    z-index: 1050; 
+		    opacity: 0;
+		    transition: opacity 0.3s ease-in-out;
+		    border-left: 5px solid #c3e6cb; /* Updated Border Color */
+		}
+
+		
+		.popup-message.show {
+		    opacity: 1;
+		}
+		
+		.popup-message i {
+		    margin-right: 10px;
+		    font-size: 1.5em;
+		}
+		
+		.popup-message span {
+		    font-weight: bold;
+		}
+
+    </style>
+</head>
+<body>
+
+	<div id="successPopup" class="popup-message" th:if="${successMessage}">
+        <i class="fas fa-check-circle"></i>
+        <span th:text="${successMessage}"></span>
+    </div>
+    <!-- Top Navigation Bar -->
+    <nav class="topnav d-flex justify-content-between align-items-center" th:each="adinfo : ${admininfo}">
+        <button id="sidebarCollapse">
+            <i class="fas fa-bars"></i>
+        </button>
+       
+        <div class="admin-dropdown dropdown">
+            <a class="d-flex align-items-center text-decoration-none dropdown-toggle text-white" id="adminDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-user-circle fa-2x me-2"></i>
+                <span class="d-none d-md-inline" th:text="${adinfo.name}"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown">
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <nav id="sidebar" class="sidebar">
+        <div class="position-sticky pt-3">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/Admin/adminlogin">
+                        <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#userManagementSubmenu" data-bs-toggle="collapse" aria-expanded="false">
+                        <i class="fas fa-users"></i><span>User Management</span>
+                    </a>
+                    <ul class="collapse nav flex-column" id="userManagementSubmenu">
+                        <li class="nav-item"><a class="nav-link sub-item" href="/Admin/activateuser"><i class="fas fa-user-plus"></i><span>Activate New User</span></a></li>
+                        <li class="nav-item"><a class="nav-link sub-item" href="/Admin/viewallusers"><i class="fas fa-list"></i><span>View All Users</span></a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#turfOwnerSubmenu" data-bs-toggle="collapse" aria-expanded="false">
+                        <i class="fas fa-user-tie"></i><span>Turf Owner Management</span>
+                    </a>
+                    <ul class="collapse nav flex-column" id="turfOwnerSubmenu">
+                        <li class="nav-item"><a class="nav-link sub-item" href="/Admin/activateturfowner"><i class="fas fa-user-plus"></i><span>Activate New Turf Owner</span></a></li>
+                        <li class="nav-item"><a class="nav-link sub-item" href="/Admin/viewallturfowners"><i class="fas fa-list"></i><span>View All Turf Owners</span></a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#turfManagementSubmenu" data-bs-toggle="collapse" aria-expanded="false">
+                        <i class="fas fa-futbol"></i><span>Turf Management</span>
+                    </a>
+                    <ul class="collapse nav flex-column" id="turfManagementSubmenu">
+                        <li class="nav-item"><a class="nav-link sub-item" href="/Admin/activateturf"><i class="fas fa-check-circle"></i><span>Verify New Turf</span></a></li>
+                        <li class="nav-item"><a class="nav-link sub-item" href="/Admin/viewallturf"><i class="fas fa-list"></i><span>View All Turfs</span></a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#gameAlertSubmenu" data-bs-toggle="collapse" aria-expanded="false">
+                        <i class="fas fa-bell"></i><span>Game Alert Management</span>
+                    </a>
+                    <ul class="collapse nav flex-column" id="gameAlertSubmenu">
+                        <li class="nav-item"><a class="nav-link sub-item" href="/Admin/viewactivegamealerts"><i class="fas fa-play-circle"></i><span>Active Game Alert</span></a></li>
+                        <li class="nav-item"><a class="nav-link sub-item" href="/Admin/viewgamealertshistory"><i class="fas fa-history"></i><span>Game Alert History</span></a></li>
+                    </ul>
+                </li>
+                
+            </ul>
+        </div>
+    </nav>
+
+
+   
+       <!-- Main content -->
+        <main id="content" class="main-content">
+            <h2 class="dashboard-heading">Turf Owner's Activated</h2>
+            <div th:if="${#lists.isEmpty(activatedturfowners)}" class="empty-list-message">
+                <i class="fas fa-info-circle"></i>
+                <p>No turf owner are currently activated.</p>
+            </div>
+            <div th:if="${not #lists.isEmpty(activatedturfowners)}" class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                          <th scope="col">User ID</th>
+                          <th scope="col">Name</th>
+                           <th scope="col">Phone Number</th>
+                           <th scope="col">Email</th>
+                             <th scope="col"> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="login : ${activatedturfowners}" th:classappend="${login.deactivatedstatus == 1} ? 'table-danger' : ''">
+				  
+                            <td th:text="${login.tf.id}"></td>
+                            <td th:text="${login.tf.name}"></td>
+                            <td th:text="${login.tf.phone}"></td>
+                            <td th:text="${login.tf.email}"></td>
+                           
+                            <td>
+                                <a th:href="@{/Admin/turfownerdeactivation/{id1}(id1=${login.id})}" class="btn-activate">
+                                    Deactivate
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+       
+
+        
+  
+
+    <!-- Logout Modal-->
+   
+        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logoutModalLabel">Ready to Leave?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Select "Logout" below if you are ready to end your current session.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <a href="/Logout/logout" class="btn btn-primary">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var sidebarCollapse = document.getElementById('sidebarCollapse');
+            var sidebar = document.getElementById('sidebar');
+            var content = document.getElementById('content');
+
+            sidebarCollapse.addEventListener('click', function() {
+                sidebar.classList.toggle('collapsed');
+                content.classList.toggle('expanded');
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+    var logoutLink = document.querySelector('.dropdown-item[data-bs-toggle="modal"]');
+    if (logoutLink) {
+        logoutLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            var logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+            logoutModal.show();
+        });
+    }
+});
+        document.addEventListener('DOMContentLoaded', function() {
+            var successPopup = document.getElementById('successPopup');
+            if (successPopup && successPopup.innerText.trim() !== '') {
+                successPopup.classList.add('show');
+                setTimeout(function() {
+                    successPopup.classList.remove('show');
+                    setTimeout(function() {
+                        successPopup.style.display = 'none';
+                    }, 300); // Wait for the fade-out transition to complete
+                }, 5000); // Display for 5 seconds
+            }
+        });
+    </script>
+  </body>
+</html>

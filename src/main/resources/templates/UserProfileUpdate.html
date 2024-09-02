@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/UserFormStyle.css">
+    
+</head>
+<body th:each="us : ${user}">
+    <nav class="top-navbar">
+        <div class="logo">
+            <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+            <img src="https://www.freeiconspng.com/thumbs/football-png/football-png-26.png" alt="Logo">
+            TeamUp
+        </div>
+        <div class="user-info">
+         
+           
+        
+            <div class="user-icon" onclick="toggleUserDropdown()"></div>
+            <div class="user-dropdown" id="userDropdown">
+                <a href="#">
+			        <i class="fas fa-user"></i>
+			        <span th:text="${us.name}"></span>
+			    </a>
+                <a href="/User/userprofile">
+			        <i class="fas fa-user-circle"></i>
+			        Profile
+			    </a>
+			    <a href="#" data-toggle="modal" data-target="#logoutModal">
+			        <i class="fas fa-sign-out-alt"></i>
+			        Logout
+			    </a>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="side-navbar" id="sideNavbar">
+        <div class="user-greeting">
+            <span class="hi-text">Hi,</span>
+            <span class="name-text"><span th:text="${us.name}"></span></span>
+        </div>
+        <ul>
+           
+           
+            
+            <li><a href="/User/userlogin"><i class="fas fa-tachometer-alt"></i><span class="text">Dashboard</span></a></li>
+            
+            <!-- My Alerts Section -->
+            <li class="collapsible">
+                <a href="#" onclick="toggleCollapse(event)">
+                    <i class="fas fa-bell"></i>
+                    <span class="text">My Alerts</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="collapsible-content">
+                    <li><a href="/User/mygamealert"><i class="fas fa-futbol"></i><span class="text">My Game Alerts</span></a></li>
+                    <li><a href="#"><i class="fas fa-film"></i><span class="text">My Movie Alerts</span></a></li>
+                </ul>
+            </li>
+    
+            <!-- Create Alert Section -->
+            <li class="collapsible">
+                <a href="#" onclick="toggleCollapse(event)">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="text">Create Alert</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="collapsible-content">
+                    <li><a href="/User/creategamealert"><i class="fas fa-gamepad"></i><span class="text">Create Game Alert</span></a></li>
+                    <li><a href="#"><i class="fas fa-video"></i><span class="text">Create Movie Alert</span></a></li>
+                </ul>
+            </li>
+    
+            <!-- New Alerts Section -->
+            <li class="collapsible">
+                <a href="#" onclick="toggleCollapse(event)">
+                    <i class="fas fa-star"></i>
+                    <span class="text">View New Alerts</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="collapsible-content">
+                    <li><a href="/User/viewgamealerts"><i class="fas fa-running"></i><span class="text">New Game Alerts</span></a></li>
+                    <li><a href="#"><i class="fas fa-ticket-alt"></i><span class="text">New Movie Alerts</span></a></li>
+                </ul>
+            </li>
+    		
+    		<li><a href="/User/directturfbooking"><i class="fas fa-location-arrow"></i><span class="text">Direct Turf Booking</span></a></li>
+            <li><a href="/User/mybooking"><i class="fas fa-calendar-check"></i><span class="text">My Bookings</span></a></li>
+        </ul>
+    </nav>
+    
+
+    <div class="main-content" id="mainContent">
+        <h2 class="section-heading">User Profile</h2>
+        
+        <div class="form-container">
+           
+            <form role="form" action="/User/updateuser" method="post">
+                    <input type="hidden" name="id" th:value="${us.id}">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" placeholder="Enter Name" name="name" id="name" th:value="${us.name}" required disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input type="text" placeholder="Enter Mobile No:" id="phone" name="phone" th:value="${us.phone}" pattern="^\d{10}$" title="Please enter a 10-digit phone number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" placeholder="Enter Email" name="email" id="email" th:value="${us.email}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Age:</label>
+                        <input type="text" placeholder="Enter Your Age:" id="age" name="age" th:value="${us.age}">
+                    </div>
+                    <div class="form-group">
+                        <label for="loc">Locality:</label>
+                        <select id="loc" name="locality" required th:value="${us.locality}" >
+                           <!--  <option th:value="${us.locality}" ><span th:text="${us.locality}"></span></option>  -->
+                            
+						    <option value="TRIVANDRUM" th:selected="${'TRIVANDRUM'.equals(us.locality)}">Palayam</option>
+						    <option value="KAZHAKOOTTAMM" th:selected="${'KAZHAKOOTTAMM'.equals(us.locality)}">Kazhakoottam</option>
+						    <option value="PATTOM" th:selected="${'PATTOM'.equals(us.locality)}">Pattom</option>
+						    <option value="VATTIYOORKAVU" th:selected="${'VATTIYOORKAVU'.equals(us.locality)}">Vattiyoorkavu</option>
+						    <option value="KOWDIAR" th:selected="${'KOWDIAR'.equals(us.locality)}">Kowdiar</option>
+						    <option value="SREEKARYAM" th:selected="${'SREEKARYAM'.equals(us.locality)}">Sreekaryam</option>
+						</select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="psw">Password:</label>
+                        <input type="password" placeholder="Enter Password" name="password" id="psw" pattern="^(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{5,}$" title="Password must be at least 5 characters long and contain at least 1 special character" required>
+                    </div>
+                
+               
+               
+               
+                
+                
+
+                <div class="btn-container">
+                    
+                    <button type="submit" class="btn btn-submit">
+                        <i class="fas fa-paper-plane"></i> Update
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="/Logout/logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+   function toggleSidebar() {
+    const sidebar = document.getElementById('sideNavbar');
+    const mainContent = document.getElementById('mainContent');
+    sidebar.classList.toggle('open');
+    if (sidebar.classList.contains('open')) {
+        mainContent.style.marginLeft = '250px';
+    } else {
+        mainContent.style.marginLeft = '60px'; // Adjust to sidebar collapsed width
+    }
+}
+    function toggleCollapse(event) {
+            event.preventDefault();
+            const parentLi = event.target.closest('li.collapsible');
+            parentLi.classList.toggle('active');
+        }
+
+
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+       
+        // Close user dropdown when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.matches('.user-icon') && !e.target.closest('.user-dropdown')) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        });
+        
+    </script>
+<script> //Script for form
+document.addEventListener('DOMContentLoaded', function() {
+    // Helper function to format hours for display
+    function formatHourForDisplay(hour) {
+        const period = hour < 12 ? ' AM' : ' PM';
+        const formattedHour = (hour % 12 || 12).toString().padStart(2, '0');
+        return `${formattedHour}:00${period}`;
+    }
+
+    // Helper function to format hours for value (ISO-8601)
+    function formatHourForValue(hour) {
+        return `${hour.toString().padStart(2, '0')}:00:00`;
+    }
+
+    // Function to populate time slots
+    async function populateTimeSlots() {
+        const turfSelect = document.getElementById('turf');
+        const timeSlotSelect = document.getElementById('timeSlot');
+        timeSlotSelect.innerHTML = ''; // Clear existing options
+
+        const now = new Date();
+        const selectedDate = new Date(document.getElementById('date').value);
+        const isToday = now.toDateString() === selectedDate.toDateString();
+        const currentHour = now.getHours();
+
+        // Fetch booked slots
+        const turfName = turfSelect.value;
+        const date = selectedDate.toISOString().split('T')[0];
+        const response = await fetch(`/apicontroller/api/booked-slots?turfName=${turfName}&date=${date}`);
+        const bookedSlots = await response.json();
+        const bookedHours = bookedSlots.map(slot => parseInt(slot.split(':')[0]));
+
+        // Populate available time slots
+        for (let hour = 0; hour < 24; hour++) {
+            if ((!isToday || hour > currentHour) && !bookedHours.includes(hour)) {
+                const option = document.createElement('option');
+                option.value = formatHourForValue(hour);  // ISO-8601 format
+                option.textContent = formatHourForDisplay(hour);  // Display format
+                timeSlotSelect.appendChild(option);
+            }
+        }
+    }
+
+    // Function to set the rate based on selected time slot
+    function setRate() {
+        const timeSlotSelect = document.getElementById('timeSlot');
+        const turfSelect = document.getElementById('turf');
+        const rateInput = document.getElementById('rate');
+
+        const selectedTime = timeSlotSelect.value.split(':');
+        const selectedHour = parseInt(selectedTime[0]);
+
+        const selectedTurfOption = turfSelect.options[turfSelect.selectedIndex];
+        const normalRate = parseFloat(selectedTurfOption.getAttribute('data-normal-rate'));
+        const peakRate = parseFloat(selectedTurfOption.getAttribute('data-peak-rate'));
+        const turfowneridno = parseFloat(selectedTurfOption.getAttribute('turfowneridd'));
+        console.log(turfowneridno);
+        turfownerid.value=turfowneridno;
+
+        if ((selectedHour >= 0 && selectedHour < 16) || selectedHour === 23) { // 12AM - 4PM or 11PM
+            rateInput.value = normalRate;
+        } else { // 5PM - 10PM
+            rateInput.value = peakRate;
+        }
+       
+    }
+
+    // Event listeners
+    document.getElementById('date').addEventListener('change', populateTimeSlots);
+    document.getElementById('timeSlot').addEventListener('change', setRate);
+    document.getElementById('turf').addEventListener('change', populateTimeSlots);
+    document.getElementById('turf').addEventListener('change', setTurfownerid);
+
+    // Initialize the time slots on page load
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date').value = today;
+    populateTimeSlots();
+});
+</script>
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('/img/loginpage.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.99); /* Adjust the last value for desired transparency */
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            height: 320px;
+            display: flex;
+            flex-direction: column;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 22px;
+            font-weight: 600;
+            margin: 0 0 25px;
+        }
+        form {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px 0;
+            margin: 0;
+            border: none;
+            border-bottom: 1px solid #e0e0e0;
+            box-sizing: border-box;
+            font-size: 14px;
+            outline: none;
+        }
+        .input-group {
+            margin-bottom: 25px;
+        }
+        .password-container {
+            position: relative;
+            margin-top: 25px;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #757575;
+        }
+        .remember-forget {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        .sign-in-btn {
+            width: 80%;
+            padding: 10px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: block;
+            margin: 15px auto;
+        }
+        .sign-up {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        a {
+            color: #2196F3;
+            text-decoration: none;
+        }
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        
+     .popup-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 20px;
+            background-color: rgba(236, 240, 241, 0.9);
+            color: #2c3e50;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1050;
+            border-left: 6px solid #3498db;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            max-width: 80%;
+            text-align: center;
+        }
+        
+        .popup-message.show {
+            display: flex;
+        }
+        
+        .popup-message.error {
+            border-left-color: #e74c3c;
+        }
+		
+		.popup-message-icon {
+		  margin-right: 10px;
+		  font-size: 18px;
+		  color: #3498db; /* Blue color for the icon */
+		}
+		
+		.popup-message-text {
+		  flex: 1;
+		}
+		
+		@media (max-width: 600px) {
+		  .popup-message {
+		    width: 90%;
+		    font-size: 13px;
+		    padding: 10px 15px;
+		  }
+		}
+
+        
+    </style>
+</head>
+<body>
+<div class="popup-message" id="approvalPopup" th:if="${showApprovalPopup}">
+        <span class="popup-message-icon">&#128736;</span>
+        <span class="popup-message-text">Waiting for admin approval</span>
+    </div>
+    
+    <div class="popup-message error" id="errorPopup" th:if="${error}">
+        <span class="popup-message-icon">&#9888;</span>
+        <span class="popup-message-text" th:text="${error}"></span>
+    </div>
+	
+
+    <div class="login-container">
+        <h1>Sign In</h1>
+        <form action="/LoginAndSignin/logincheck" method="post">
+            <div class="input-group">
+                <input type="text" placeholder="Email" name="email" required>
+                <div class="password-container">
+                    <input type="password" placeholder="Password" name="password" required>
+                    <span class="password-toggle">&#128065;</span>
+                </div>
+            </div>
+            <div>
+                <div class="remember-forget">
+                    <label>
+                        <input type="checkbox"> Remember Me
+                    </label>
+                    <a href="#">Forget Password ?</a>
+                </div>
+                <button type="submit" class="sign-in-btn">Sign In</button>
+            </div>
+        </form>
+        <div class="sign-up">
+            Don't have an account yet? <a href="/LoginAndSignin/userreg">Sign Up</a>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.password-toggle').addEventListener('click', function() {
+            const passwordInput = document.querySelector('input[type="password"]');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.textContent = type === 'password' ? '👁' : '🔒';
+        });
+    </script>
+    <script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        var showApprovalPopup = /*[[${showApprovalPopup}]]*/ false;
+        var error = /*[[${error}]]*/ false;
+        var approvalPopup = document.getElementById("approvalPopup");
+        var errorPopup = document.getElementById("errorPopup");
+        
+        function showPopup(popup) {
+            popup.classList.add("show");
+            setTimeout(function() {
+                popup.classList.remove("show");
+            }, 5000); 
+        }
+        
+        if (showApprovalPopup) {
+            showPopup(approvalPopup);
+        }
+        
+        if (error) {
+            showPopup(errorPopup);
+        }
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Game Alerts</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/UserTableStyle.css">
+    
+     <style>
+        
+
+        .action-buttons 
+        {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-book-turf {
+            background-color: #00a86b;
+            color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 168, 107, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .btn-book-turf:hover {
+            background-color: #008c59;
+            transform: translateY(-6px);
+            box-shadow: 0 4px 6px rgba(0, 168, 107, 0.4);
+        }
+
+        .btn-book-turf:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 168, 107, 0.2);
+        }
+
+        .btn-delete-turf {
+            background-color: #e74c3c;
+            color: #fff;
+            box-shadow: 0 2px 4px rgba(231, 76, 60, 0.3);
+            transform: translate(12px,4px);
+        }
+
+        .btn-delete-turf:hover {
+            background-color: #c0392b;
+            transform: translate(12px,2px);
+            box-shadow: 0 4px 6px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-delete-turf:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(231, 76, 60, 0.2);
+        }
+
+        .btn i {
+            margin-right: 5px;
+        }
+
+        .btn.inactive {
+            background-color: #95a5a6;
+            box-shadow: none;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        @media screen and (max-width: 600px) {
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+    
+</head>
+<body th:each="us : ${user}">
+    <nav class="top-navbar">
+        <div class="logo">
+            <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+            <img src="https://www.freeiconspng.com/thumbs/football-png/football-png-26.png" alt="Logo">
+            TeamUp
+        </div>
+        <div class="user-info">
+            <!-- <div class="weather-info">
+                <i class="fas fa-cloud-sun"></i>
+                <div class="weather-text" th:each="weather : ${weatherData}">
+                    <div class="temperature"><span th:text="${weather.main.temp}"></span> °C</div>
+                    <div class="weather-desc"><span th:text="${weather.weather[0].description}"></span></div>
+                </div>
+            </div> -->
+            
+           
+        
+            <div class="user-icon" onclick="toggleUserDropdown()"></div>
+            <div class="user-dropdown" id="userDropdown">
+                <a href="#">
+			        <i class="fas fa-user"></i>
+			        <span th:text="${us.name}"></span>
+			    </a>
+                <a href="/User/userprofile">
+			        <i class="fas fa-user-circle"></i>
+			        Profile
+			    </a>
+			    <a href="#" data-toggle="modal" data-target="#logoutModal">
+			        <i class="fas fa-sign-out-alt"></i>
+			        Logout
+			    </a>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="side-navbar" id="sideNavbar">
+        <div class="user-greeting">
+            <span class="hi-text">Hi,</span>
+            <span class="name-text"><span th:text="${us.name}"></span></span>
+        </div>
+        <ul>
+           
+           
+            
+            <li><a href="/User/userlogin"><i class="fas fa-tachometer-alt"></i><span class="text">Dashboard</span></a></li>
+            
+            <!-- My Alerts Section -->
+            <li class="collapsible">
+                <a href="#" onclick="toggleCollapse(event)">
+                    <i class="fas fa-bell"></i>
+                    <span class="text">My Alerts</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="collapsible-content">
+                    <li><a href="/User/mygamealert"><i class="fas fa-futbol"></i><span class="text">My Game Alerts</span></a></li>
+                    <li><a href="#"><i class="fas fa-film"></i><span class="text">My Movie Alerts</span></a></li>
+                </ul>
+            </li>
+    
+            <!-- Create Alert Section -->
+            <li class="collapsible">
+                <a href="#" onclick="toggleCollapse(event)">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="text">Create Alert</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="collapsible-content">
+                    <li><a href="/User/creategamealert"><i class="fas fa-gamepad"></i><span class="text">Create Game Alert</span></a></li>
+                    <li><a href="#"><i class="fas fa-video"></i><span class="text">Create Movie Alert</span></a></li>
+                </ul>
+            </li>
+    
+            <!-- New Alerts Section -->
+            <li class="collapsible">
+                <a href="#" onclick="toggleCollapse(event)">
+                    <i class="fas fa-star"></i>
+                    <span class="text">View New Alerts</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="collapsible-content">
+                    <li><a href="/User/viewgamealerts"><i class="fas fa-running"></i><span class="text">New Game Alerts</span></a></li>
+                    <li><a href="#"><i class="fas fa-ticket-alt"></i><span class="text">New Movie Alerts</span></a></li>
+                </ul>
+            </li>
+    		
+    		<li><a href="/User/directturfbooking"><i class="fas fa-location-arrow"></i><span class="text">Direct Turf Booking</span></a></li>
+            <li><a href="/User/mybooking"><i class="fas fa-calendar-check"></i><span class="text">My Bookings</span></a></li>
+        </ul>
+    </nav>
+    
+
+    <div class="main-content" id="mainContent">
+        <h2 class="section-heading">My Alerts</h2>
+        
+        <div th:if="${#lists.isEmpty(myalerts)}" class="no-records">
+            <i class="fas fa-info-circle"></i> No alerts records found.
+        </div>
+        
+        <div th:if="${not #lists.isEmpty(myalerts)}" class="table-container">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Alert id</th>
+                            <th>Created Time</th>
+                            <th>Game Type</th>
+                            <th>Turf Name</th>
+                            <th>Game Date</th>
+                            <th>Game Time</th>
+                            <th>Turf Rate</th>
+                            <th>Players Needed</th>
+                            <th>Players Joined</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ga : ${myalerts}">
+                            <td data-label="Alert id" th:text="${ga.id}"></td>
+                            <td data-label="Created Time" th:text="${ga.createdtime}"></td>
+                            <td data-label="Game Type" th:text="${ga.gamename}"></td>
+                            <td data-label="Turf Name" th:text="${ga.turfname}"></td>
+                            <td data-label="Game Date" th:text="${ga.gamedate}"></td>
+                            <td data-label="Game Time" th:text="${ga.gametime}"></td>
+                            <td data-label="Turf Rate" th:text="${ga.turfrate}"></td>
+                            <td data-label="Players Needed" th:text="${ga.playersneeded}"></td>
+                           
+                            <td data-label="Players Joined">
+						    <ul>
+						        <li th:each="user : ${ga.acceptedUsers}" th:text="${user.name + '-' + user.phone}"></li>
+						    </ul>
+							</td>	
+                             <td data-label="Action">
+			                    <div class="action-buttons">
+			                        <div th:if="${ga.playersstatus == 1}">
+			                            <a th:href="@{/Turfowner/bookturf(alertid=${ga.id},turfname=${ga.turfname},turfrate=${ga.turfrate},userid=${us.id},turfownerid=${ga.turfownerid},gamename=${ga.gamename},gametime=${ga.gametime},gamedate=${ga.gamedate})}">
+			                                <button type="button" class="btn btn-book-turf">
+			                                    <i class="fas fa-calendar-check"></i> Book Turf
+			                                </button>
+			                            </a>
+			                            <a th:href="@{/User/deletealert/{id}(id=${ga.id})}">
+			                                <button type="button" class="btn btn-delete-turf">
+			                                    <i class="fas fa-trash-alt"></i> Delete
+			                                </button>
+			                            </a>
+			                        </div>
+			                        <div th:if="${ga.playersstatus == 0}">
+			                            <button type="button" class="btn btn-book-turf inactive">
+			                                <i class="fas fa-calendar-check"></i> Book Turf
+			                            </button>
+			                            <a th:href="@{/User/deletealert/{id}(id=${ga.id})}">
+			                                <button type="button" class="btn btn-delete-turf">
+			                                    <i class="fas fa-trash-alt"></i> Delete
+			                                </button>
+			                            </a>
+			                        </div>
+			                    </div>
+			                </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="/Logout/logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+
+        
+   function toggleSidebar() {
+    const sidebar = document.getElementById('sideNavbar');
+    const mainContent = document.getElementById('mainContent');
+    sidebar.classList.toggle('open');
+    if (sidebar.classList.contains('open')) {
+        mainContent.style.marginLeft = '250px';
+    } else {
+        mainContent.style.marginLeft = '60px'; // Adjust to sidebar collapsed width
+    }
+}
+    function toggleCollapse(event) {
+            event.preventDefault();
+            const parentLi = event.target.closest('li.collapsible');
+            parentLi.classList.toggle('active');
+        }
+
+
+
+
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+       
+
+        // Close user dropdown when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.matches('.user-icon') && !e.target.closest('.user-dropdown')) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        });
+
+        
+       
+        
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+</body>
+</html>
