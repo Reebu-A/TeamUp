@@ -9,7 +9,7 @@ import com.Teamup.model.WeatherResponse;
 @Service
 public class Weatherservice 
 {
-	private final String apiKey = "24b81bdac2cbf2c8d1a9d209302073e7";
+	private final String apiKey = "KEY";
     private final String apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=Thiruvananthapuram,in&appid=" + apiKey + "&units=metric";
 
     public WeatherResponse getWeatherData() {
