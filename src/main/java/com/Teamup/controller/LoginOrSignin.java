@@ -26,7 +26,7 @@ public class LoginOrSignin
 {
 	@Autowired
 	private LoginService lservice;
-	@GetMapping("/")
+	@GetMapping({"/","/home","/status"})
 	public String index()
 	{
 		return "Index";
