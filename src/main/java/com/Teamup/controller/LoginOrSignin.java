@@ -29,7 +29,7 @@ public class LoginOrSignin
 	@GetMapping("/")
 	public String index()
 	{
-		return "Index.html";
+		return "Index";
 	}
 	@GetMapping("/login")
 	public String login(Model model,HttpServletResponse response)
