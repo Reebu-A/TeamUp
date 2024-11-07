@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamUp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background-color: #000;
+        }
+
+        .bg {
+            position: relative;
+            height: 100%;
+            background-image: url("/img/index-background.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5); /* Adjust the opacity and color here */
+            z-index: 1;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: rgba(0, 255, 0, 0.2);
+            border-radius: 50px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 2;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+            margin: 0 10px;
+        }
+
+        .navbar .logo img {
+            height: 40px;
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            transform: translateY(-50%);
+            text-align: left;
+            width: 50%;
+            z-index: 2;
+        }
+
+        .content h1 {
+            font-size: 4em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .content h1 span {
+    color: #00ff00;  /* Bright green color */
+}
+.content p span {
+    color: #00ff00;  /* Bright green color */
+}
+
+.content .underline {
+    width: 550px;  /* Increased width to show the fade effect */
+    height: 6px;
+    background: linear-gradient(to right, #00ff00, transparent);
+    margin-bottom: 20px;
+    border-radius: 3px;
+}
+
+        .content p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background-color: #00ff00;
+            color: black;
+            padding: 15px 30px;
+            margin: 5px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .btn.outline {
+            background-color: transparent;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+        }
+
+        .location {
+            position: absolute;
+            bottom: 20px;
+            left: 5%;
+            font-size: 1em;
+        }
+
+        .side-icons {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .side-icons::before {
+            content: '';
+            width: 2px;
+            height: 100px;
+            background-color: #00ff00;
+            margin-bottom: 20px;
+        }
+
+        .side-icons a {
+            margin: 10px 0;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+        #signupOptions {
+            display: none;
+            margin-top: 10px;
+        }
+
+        #signupOptions .btn {
+            display: inline-block;
+            margin-right: 10px;
+            background-color: #ee7307; /* New orange color */
+            color: white;
+        }
+
+        #signupOptions .btn:hover {
+            background-color: #e65c00; /* Darker orange for hover effect */
+        }
+          .popup-message {
+		    position: fixed;
+		    top: 70px; 
+		    left: 50%;
+		    transform: translateX(-50%);
+		    padding: 15px 25px;
+		    background-color: #d4edda; /* Updated Background Color */
+		    color: #155724; /* Updated Text Color */
+		    border-radius: 10px;
+		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    z-index: 1050; 
+		    opacity: 0;
+		    transition: opacity 0.3s ease-in-out;
+		    border-left: 5px solid #c3e6cb; /* Updated Border Color */
+		}
+
+		
+		.popup-message.show {
+		    opacity: 1;
+		}
+		
+		.popup-message i {
+		    margin-right: 10px;
+		    font-size: 1.5em;
+		}
+		
+		.popup-message span {
+		    font-weight: bold;
+		}
+    </style>
+</head>
+<body>
+<div id="successPopup" class="popup-message" th:if="${successMessage}">
+        <i class="fas fa-check-circle"></i>
+        <span th:text="${successMessage}"></span>
+    </div>
+    <div class="bg">
+       
+        <div class="content">
+            <h1>Elevate Your Game with <span>Teamup</span></h1>
+            <div class="underline"></div>
+            <p>Welcome to <span>Teamup</span>, where convenience meets sportsmanship. Teamup is designed to bring players and turf owners together seamlessly, making sports more enjoyable and organized. Whether you're managing a facility or looking for a place to play, Teamup has got you covered.</p>
+            <a href="/LoginAndSignin/login"> <button type="button" class="btn">Login</button></a>
+           
+            <button class="btn outline" id="signupBtn">SignUp</button>
+        <div id="signupOptions" style="display: none;">
+            <a href="/LoginAndSignin/userreg"> <button  class="btn"> User SignUp</button> </a>
+            <a href="/LoginAndSignin/tforeg">  <button  class="btn">Turf Owner SignUp</button> </a>
+            
+        </div>
+        </div>
+        <div class="side-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('signupBtn').addEventListener('click', function() {
+            var signupOptions = document.getElementById('signupOptions');
+            signupOptions.style.display = signupOptions.style.display === 'none' ? 'block' : 'none';
+        });
+        </script>
+        
+         <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var successPopup = document.getElementById('successPopup');
+            if (successPopup && successPopup.innerText.trim() !== '') {
+                successPopup.classList.add('show');
+                setTimeout(function() {
+                    successPopup.classList.remove('show');
+                    setTimeout(function() {
+                        successPopup.style.display = 'none';
+                    }, 300); // Wait for the fade-out transition to complete
+                }, 5000); // Display for 5 seconds
+            }
+        });
+    </script>
+</body>
+
+</html>
