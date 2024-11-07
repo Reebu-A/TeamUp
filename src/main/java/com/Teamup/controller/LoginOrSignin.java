@@ -29,7 +29,7 @@ public class LoginOrSignin
 	@GetMapping({"/","/home","/status"})
 	public String index()
 	{
-		return "Loginpage";
+		return "Index";
 	}
 	@GetMapping("/login")
 	public String login(Model model,HttpServletResponse response)
