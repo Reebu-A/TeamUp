@@ -36,7 +36,10 @@ public class AlertService
 
 	public GameAlerts savegamealert(GameAlerts ga)
 	{
-		LocalDateTime now = LocalDateTime.now();    //for local time
+		LocalDateTime time = LocalDateTime.now();
+        ZonedDateTime zoned = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
+        System.out.println(zoned);
+        LocalDateTime now = zoned.toLocalDateTime();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");  
         String datetime = now.format(format);
 		ga.setCreatedtime(datetime);
