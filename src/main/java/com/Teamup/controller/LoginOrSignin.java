@@ -31,7 +31,7 @@ public class LoginOrSignin
 	    public String redirectToHome() {
 	        return "redirect:/home";
 	    }
-	 @GetMapping({"/","/home","/status"})
+	 @GetMapping({"/home","/status"})
 		public String index()
 		{
 			return "Index";
