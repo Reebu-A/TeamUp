@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeamUp</title>
 
+
     <style>
         body, html {
             height: 100%;
@@ -31,7 +32,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.5); /* Adjust the opacity and color here */
             z-index: 1;
         }
 
@@ -39,7 +40,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 20px 40px;
             background-color: rgba(0, 255, 0, 0.2);
             border-radius: 50px;
             position: absolute;
@@ -66,41 +67,34 @@
             left: 5%;
             transform: translateY(-50%);
             text-align: left;
-            width: 90%;
-            max-width: 800px;
+            width: 50%;
             z-index: 2;
-            padding: 20px;
-            box-sizing: border-box;
         }
 
         .content h1 {
             font-size: 4em;
             margin-bottom: 10px;
             text-transform: uppercase;
-            line-height: 1.2;
         }
 
         .content h1 span {
-            color: #00ff00;
-        }
+    color: #00ff00;  /* Bright green color */
+}
+.content p span {
+    color: #00ff00;  /* Bright green color */
+}
 
-        .content p span {
-            color: #00ff00;
-        }
-
-        .content .underline {
-            width: 100%;
-            max-width: 550px;
-            height: 6px;
-            background: linear-gradient(to right, #00ff00, transparent);
-            margin-bottom: 20px;
-            border-radius: 3px;
-        }
+.content .underline {
+    width: 550px;  /* Increased width to show the fade effect */
+    height: 6px;
+    background: linear-gradient(to right, #00ff00, transparent);
+    margin-bottom: 20px;
+    border-radius: 3px;
+}
 
         .content p {
             font-size: 1.2em;
             margin-bottom: 30px;
-            line-height: 1.6;
         }
 
         .btn {
@@ -154,7 +148,6 @@
             text-decoration: none;
             font-size: 1.2em;
         }
-
         #signupOptions {
             display: none;
             margin-top: 10px;
@@ -163,123 +156,66 @@
         #signupOptions .btn {
             display: inline-block;
             margin-right: 10px;
-            background-color: #ee7307;
+            background-color: #ee7307; /* New orange color */
             color: white;
         }
 
         #signupOptions .btn:hover {
-            background-color: #e65c00;
+            background-color: #e65c00; /* Darker orange for hover effect */
         }
+          .popup-message {
+		    position: fixed;
+		    top: 70px; 
+		    left: 50%;
+		    transform: translateX(-50%);
+		    padding: 15px 25px;
+		    background-color: #d4edda; /* Updated Background Color */
+		    color: #155724; /* Updated Text Color */
+		    border-radius: 10px;
+		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    z-index: 1050; 
+		    opacity: 0;
+		    transition: opacity 0.3s ease-in-out;
+		    border-left: 5px solid #c3e6cb; /* Updated Border Color */
+		}
 
-        .popup-message {
-            position: fixed;
-            top: 70px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 15px 25px;
-            background-color: #d4edda;
-            color: #155724;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1050;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-            border-left: 5px solid #c3e6cb;
-            width: 90%;
-            max-width: 400px;
-            box-sizing: border-box;
-        }
-
-        .popup-message.show {
-            opacity: 1;
-        }
-
-        .popup-message i {
-            margin-right: 10px;
-            font-size: 1.5em;
-        }
-
-        .popup-message span {
-            font-weight: bold;
-        }
-
-        /* Media Queries */
-        @media screen and (max-width: 768px) {
-            .content {
-                left: 0;
-                width: 100%;
-                padding: 20px;
-            }
-
-            .content h1 {
-                font-size: 2.5em;
-            }
-
-            .content p {
-                font-size: 1em;
-            }
-
-            .btn {
-                padding: 12px 24px;
-                font-size: 0.9em;
-                display: block;
-                width: 100%;
-                margin: 10px 0;
-            }
-
-            .side-icons {
-                display: none;
-            }
-
-            #signupOptions .btn {
-                margin: 10px 0;
-                width: 100%;
-            }
-
-            .navbar {
-                padding: 10px 15px;
-            }
-
-            .navbar .logo img {
-                height: 30px;
-            }
-        }
-
-        @media screen and (max-width: 480px) {
-            .content h1 {
-                font-size: 2em;
-            }
-
-            .content {
-                top: 45%;
-            }
-
-            .popup-message {
-                padding: 10px 15px;
-                font-size: 0.9em;
-            }
-        }
+		
+		.popup-message.show {
+		    opacity: 1;
+		}
+		
+		.popup-message i {
+		    margin-right: 10px;
+		    font-size: 1.5em;
+		}
+		
+		.popup-message span {
+		    font-weight: bold;
+		}
     </style>
 </head>
 <body>
-    <div id="successPopup" class="popup-message" th:if="${successMessage}">
+<div id="successPopup" class="popup-message" th:if="${successMessage}">
         <i class="fas fa-check-circle"></i>
         <span th:text="${successMessage}"></span>
     </div>
     <div class="bg">
+       
         <div class="content">
             <h1>Elevate Your Game with <span>Teamup</span></h1>
             <div class="underline"></div>
             <p>Welcome to <span>Teamup</span>, where convenience meets sportsmanship. Teamup is designed to bring players and turf owners together seamlessly, making sports more enjoyable and organized. Whether you're managing a facility or looking for a place to play, Teamup has got you covered.</p>
-            <a href="/LoginAndSignin/login"><button type="button" class="btn">Login</button></a>
+            <a href="/LoginAndSignin/login"> <button type="button" class="btn">Login</button></a>
+           
             <button class="btn outline" id="signupBtn">SignUp</button>
-            <div id="signupOptions" style="display: none;">
-                <a href="/LoginAndSignin/userreg"><button class="btn">User SignUp</button></a>
-                <a href="/LoginAndSignin/tforeg"><button class="btn">Turf Owner SignUp</button></a>
-            </div>
+        <div id="signupOptions" style="display: none;">
+            <a href="/LoginAndSignin/userreg"> <button  class="btn"> User SignUp</button> </a>
+            <a href="/LoginAndSignin/tforeg">  <button  class="btn">Turf Owner SignUp</button> </a>
+            
+        </div>
         </div>
         <div class="side-icons">
             <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -293,7 +229,9 @@
             var signupOptions = document.getElementById('signupOptions');
             signupOptions.style.display = signupOptions.style.display === 'none' ? 'block' : 'none';
         });
-
+        </script>
+        
+         <script>
         document.addEventListener('DOMContentLoaded', function() {
             var successPopup = document.getElementById('successPopup');
             if (successPopup && successPopup.innerText.trim() !== '') {
@@ -302,10 +240,11 @@
                     successPopup.classList.remove('show');
                     setTimeout(function() {
                         successPopup.style.display = 'none';
-                    }, 300);
-                }, 5000);
+                    }, 300); // Wait for the fade-out transition to complete
+                }, 5000); // Display for 5 seconds
             }
         });
     </script>
 </body>
+
 </html>

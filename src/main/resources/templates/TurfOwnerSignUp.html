@@ -17,7 +17,7 @@
             padding: 10px;
             box-sizing: border-box;
             position: relative;
-            overflow: hidden;
+            overflow: auto;
         }
         body::before {
             content: '';
@@ -39,6 +39,7 @@
             width: 100%;
             max-width: 460px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            min-width: 300px;
         }
         .start-free {
             color: #94a3b8;
@@ -121,6 +122,16 @@
         .checkbox-group input {
             margin-right: 8px;
         }
+        
+        @media (max-width: 480px) {
+        .form-container {
+            padding: 15px;
+            max-width: 100%;
+        }
+        body {
+            padding: 5px;
+        }
+    }
       
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
