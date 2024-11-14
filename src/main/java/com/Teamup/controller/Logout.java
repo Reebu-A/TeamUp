@@ -18,7 +18,7 @@ public class Logout
 		int id= (int) session.getAttribute("id");
 		session.removeAttribute("id");
 	    session.invalidate();
-		return "redirect:/LoginAndSignin/";
+		return "redirect:/";
 	}
 
 }
