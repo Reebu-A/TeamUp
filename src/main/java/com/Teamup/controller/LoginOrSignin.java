@@ -29,14 +29,16 @@ public class LoginOrSignin
 	
 	 @GetMapping("/")
 	    public String redirectToHome() {
-	        return "redirect:/LoginAndSignin/";
+	        return "redirect:/home";
 	    }
+	 @GetMapping({"/","/home","/status"})
+		public String index()
+		{
+			return "Index";
+		}
+	 
 	@RequestMapping("LoginAndSignin")
-	@GetMapping({"/","/home","/status"})
-	public String index()
-	{
-		return "Index";
-	}
+	
 	@GetMapping("/login")
 	public String login(Model model,HttpServletResponse response)
 	{
