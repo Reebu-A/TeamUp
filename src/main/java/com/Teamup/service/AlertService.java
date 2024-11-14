@@ -142,7 +142,7 @@ public class AlertService
     public void updateGameStatusontime() {
         List<GameAlerts> games = galertrepo.findAll();
         LocalDateTime time = LocalDateTime.now();
-        ZonedDateTime zoned = time.atZone(ZoneId.of("Asia/Kolkata"));
+        ZonedDateTime zoned = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
         System.out.println(zoned);
         LocalDateTime now = zoned.toLocalDateTime();
 
