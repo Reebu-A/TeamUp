@@ -21,11 +21,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("LoginAndSignin")
+
 public class LoginOrSignin 
 {
 	@Autowired
 	private LoginService lservice;
+	
+	 @GetMapping("/")
+	    public String redirectToHome() {
+	        return "redirect:/LoginAndSignin/";
+	    }
+	@RequestMapping("LoginAndSignin")
 	@GetMapping({"/","/home","/status"})
 	public String index()
 	{
