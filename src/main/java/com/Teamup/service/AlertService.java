@@ -1,6 +1,8 @@
 package com.Teamup.service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +141,11 @@ public class AlertService
 	@Scheduled(fixedRate = 60000) // Run every minute
     public void updateGameStatusontime() {
         List<GameAlerts> games = galertrepo.findAll();
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime time = LocalDateTime.now();
+        ZonedDateTime zoned = time.atZone(ZoneId.of("Asia/Kolkata"));
+        System.out.println(zoned);
+        LocalDateTime now = zoned.toLocalDateTime();
+
         
         for(GameAlerts game : games)
         {
